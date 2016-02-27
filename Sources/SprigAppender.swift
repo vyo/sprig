@@ -2,7 +2,7 @@
 
 */
 
-protocol Appender {
+protocol SprigAppender {
 
     func write(any: String)
 
