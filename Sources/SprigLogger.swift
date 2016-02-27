@@ -52,18 +52,20 @@ struct SprigLogger {
 
         let processInfo: NSProcessInfo = NSProcessInfo.processInfo()
         let pid: Int32 = processInfo.processIdentifier
-        let hostName: String = processInfo.hostName
+        let hostname: String = processInfo.hostName
         let thread: NSThread = NSThread.currentThread()
 
-        appender.write("\(SprigLogger.isoFormatter.stringFromDate(NSDate()))")
-        appender.write("\(pid)")
-        appender.write("\(hostName)")
-        appender.write("\(thread)")
-        appender.write("\(thread.jsonDescription())")
-        var string: String = "\nwith some \"quotes\", too"
-        appender.write(string)
-        appender.write(string.jsonDescription())
-        appender.write("\(level)")
+        var logString: String = "{"
+        logString += SprigEntry(key: "pid", value: pid).description + ","
+        logString += SprigEntry(key: "hostname", value: hostname).description + ","
+        logString += SprigEntry(key: "thread", value: thread).description + ","
+        logString += SprigEntry(key: "time", value: NSDate()).description + ","
+        logString += SprigEntry(key: "level", value: level.rawValue).description + ","
+        logString += SprigEntry(key: "name", value: name).description + ","
+        logString += SprigEntry(key: "msg", value: "message").description
+        logString += "}"
+        
+        appender.write(logString)
     }
 
     func trace(entry: SprigLoggable)
