@@ -19,8 +19,7 @@ struct SprigLogger {
     private static var global: SprigLogger
     {
         var logger: SprigLogger = SprigLogger(name: "sprig", appender: SprigConsoleAppender(), level: SprigLevel.INFO)
-        let levelEnv: String? = NSProcessInfo.processInfo().environment[SPRIG_LEVEL]
-        if let level = levelEnv {
+        if let level = NSProcessInfo.processInfo().environment[SPRIG_LEVEL] {
             if level == "10" || "TRACE".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
                 logger.level = SprigLevel.TRACE
             } else if level == "20" || "DEBUG".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
