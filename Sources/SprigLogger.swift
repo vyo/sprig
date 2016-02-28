@@ -6,6 +6,58 @@ import Foundation
 
 struct SprigLogger {
 
+    struct SprigGlobal {
+
+        private var logger: SprigLogger = SprigLogger(name: "sprig", appender: SprigConsoleAppender(), level: SprigLevel.INFO)
+        var name: String
+        {
+            get
+            {
+                return logger.name
+            }
+        }
+        var appender: SprigAppender
+        {
+            get
+            {
+                return logger.appender
+            }
+            set(appender)
+            {
+                logger.appender = appender
+            }
+        }
+        var level: SprigLevel
+        {
+            get
+            {
+                return logger.level
+            }
+            set(level)
+            {
+                logger.level = level
+            }
+        }
+
+        init() {
+            if let levelEnv = NSProcessInfo.processInfo().environment[SPRIG_LEVEL] {
+                if levelEnv == "10" || "TRACE".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.TRACE
+                } else if levelEnv == "20" || "DEBUG".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.DEBUG
+                } else if levelEnv == "30" || "INFO".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.INFO
+                } else if levelEnv == "40" || "WARN".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.WARN
+                } else if levelEnv == "50" || "ERROR".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.ERROR
+                } else if levelEnv == "60" || "FATAL".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                    level = SprigLevel.FATAL
+                }
+            }
+        }
+    }
+
     private static let SPRIG_LEVEL: String = "SPRIG_LEVEL"
     private static var isoFormatter: NSDateFormatter
     {
@@ -16,29 +68,9 @@ struct SprigLogger {
 
         return formatter
     }
-    private static var global: SprigLogger
-    {
-        var logger: SprigLogger = SprigLogger(name: "sprig", appender: SprigConsoleAppender(), level: SprigLevel.INFO)
-        if let level = NSProcessInfo.processInfo().environment[SPRIG_LEVEL] {
-            if level == "10" || "TRACE".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            } else if level == "20" || "DEBUG".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            } else if level == "30" || "INFO".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            } else if level == "40" || "WARN".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            } else if level == "50" || "ERROR".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            } else if level == "60" || "FATAL".caseInsensitiveCompare(level) == NSComparisonResult.OrderedSame {
-                logger.level = SprigLevel.TRACE
-            }
-        }
+    static var global: SprigGlobal = SprigGlobal()
 
-        return logger
-    }
-
-    var level: SprigLevel = SprigLevel.INFO
+    var level: SprigLevel
     var appender: SprigAppender
     let name: String
 
@@ -64,8 +96,12 @@ struct SprigLogger {
         logString += SprigEntry(key: "name", value: name).description + ","
         logString += SprigEntry(key: "msg", value: "message").description
         logString += "}"
-        
+
         appender.write(logString)
+    }
+
+    private static func globalLog(level: SprigLevel, entry: SprigLoggable) {
+
     }
 
     func trace(entry: SprigLoggable)
