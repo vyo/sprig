@@ -80,7 +80,7 @@ struct Logger {
         self.level = level
     }
 
-    func log(level: Level, entry: Loggable) {
+    func log(level: Level, entry: CustomStringConvertible) {
 
         let processInfo: NSProcessInfo = NSProcessInfo.processInfo()
         let pid: Int32 = processInfo.processIdentifier
@@ -94,42 +94,42 @@ struct Logger {
         logString += Entry(key: "time", value: NSDate()).description + ","
         logString += Entry(key: "level", value: level.rawValue).description + ","
         logString += Entry(key: "name", value: name).description + ","
-        logString += Entry(key: "msg", value: "message").description
+        logString += Entry(key: "msg", value: entry).description
         logString += "}"
 
         appender.write(logString)
     }
 
-    private static func globalLog(level: Level, entry: Loggable) {
+    private static func globalLog(level: Level, entry: CustomStringConvertible) {
 
     }
 
-    func trace(entry: Loggable)
+    func trace(entry: CustomStringConvertible)
     {
         log(Level.TRACE, entry: entry)
     }
 
-    func debug(entry: Loggable)
+    func debug(entry: CustomStringConvertible)
     {
         log(Level.DEBUG, entry: entry)
     }
 
-    func info(entry: Loggable)
+    func info(entry: CustomStringConvertible)
     {
         log(Level.INFO, entry: entry)
     }
 
-    func warn(entry: Loggable)
+    func warn(entry: CustomStringConvertible)
     {
         log(Level.WARN, entry: entry)
     }
 
-    func error(entry: Loggable)
+    func error(entry: CustomStringConvertible)
     {
         log(Level.ERROR, entry: entry)
     }
 
-    func fatal(entry: Loggable)
+    func fatal(entry: CustomStringConvertible)
     {
         log(Level.FATAL, entry: entry)
     }

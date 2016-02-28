@@ -1,12 +1,8 @@
+/*
 
+*/
 
-protocol Loggable {
-
-    func jsonDescription() -> String
-
-}
-
-func escape(string: String) -> String {
+func toJSONString(string: String) -> String {
     var escapedString = string.stringByReplacingOccurrencesOfString("\\", withString: "\\\\")
     escapedString = escapedString.stringByReplacingOccurrencesOfString("\n", withString: "\\n")
     escapedString = escapedString.stringByReplacingOccurrencesOfString("\r", withString: "\\r")
@@ -26,16 +22,7 @@ extension CustomStringConvertible {
             self is Bool {
             return self.description
         }
-        return escape(self.description)
-    }
-
-}
-
-extension String: Loggable {
-
-    func jsonDescription() -> String
-    {
-        return escape(self)
+        return toJSONString(self.description)
     }
 
 }
