@@ -1,5 +1,5 @@
 
-enum SprigLevel: Int {
+enum Level: Int {
     case TRACE = 10
     case DEBUG = 20
     case INFO = 30

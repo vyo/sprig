@@ -1,6 +1,6 @@
 
 
-protocol SprigLoggable {
+protocol Loggable {
 
     func jsonDescription() -> String
 
@@ -31,7 +31,7 @@ extension CustomStringConvertible {
 
 }
 
-extension String: SprigLoggable {
+extension String: Loggable {
 
     func jsonDescription() -> String
     {
