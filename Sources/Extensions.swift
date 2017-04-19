@@ -3,11 +3,11 @@
 */
 
 func toJSONString(string: String) -> String {
-    var escapedString = string.stringByReplacingOccurrencesOfString("\\", withString: "\\\\")
-    escapedString = escapedString.stringByReplacingOccurrencesOfString("\n", withString: "\\n")
-    escapedString = escapedString.stringByReplacingOccurrencesOfString("\r", withString: "\\r")
-    escapedString = escapedString.stringByReplacingOccurrencesOfString("\t", withString: "\\t")
-    escapedString = escapedString.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+    var escapedString = string.replacingOccurrences(of: "\\", with: "\\\\")
+    escapedString = escapedString.replacingOccurrences(of: "\n", with: "\\n")
+    escapedString = escapedString.replacingOccurrences(of: "\r", with: "\\r")
+    escapedString = escapedString.replacingOccurrences(of: "\t", with: "\\t")
+    escapedString = escapedString.replacingOccurrences(of: "\"", with: "\\\"")
 
     return "\"" + escapedString + "\""
 }
@@ -22,14 +22,14 @@ extension CustomStringConvertible {
             self is Bool {
             return self.description
         }
-        return toJSONString(self.description)
+        return toJSONString(string: self.description)
     }
 
 }
 
-extension String: CustomStringConvertible {
-    public var description: String
-    {
-        return self
-    }
-}
+// extension String: CustomStringConvertible {
+//     public var description: String
+//     {
+//         return self
+//     }
+// }

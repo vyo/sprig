@@ -8,7 +8,7 @@ struct Logger {
 
     struct Global {
 
-        private var logger: Logger = Logger(name: "sprig", appender: ConsoleAppender(), level: Level.INFO)
+        private var logger: Logger = Logger("sprig", appender: ConsoleAppender(), level: Level.INFO)
         var name: String
         {
             get
@@ -40,18 +40,18 @@ struct Logger {
         }
 
         init() {
-            if let levelEnv = NSProcessInfo.processInfo().environment[SPRIG_LEVEL] {
-                if levelEnv == "10" || "TRACE".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+            if let levelEnv = ProcessInfo.processInfo.environment[SPRIG_LEVEL] {
+                if levelEnv == "10" || "TRACE".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.TRACE
-                } else if levelEnv == "20" || "DEBUG".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                } else if levelEnv == "20" || "DEBUG".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.DEBUG
-                } else if levelEnv == "30" || "INFO".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                } else if levelEnv == "30" || "INFO".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.INFO
-                } else if levelEnv == "40" || "WARN".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                } else if levelEnv == "40" || "WARN".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.WARN
-                } else if levelEnv == "50" || "ERROR".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                } else if levelEnv == "50" || "ERROR".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.ERROR
-                } else if levelEnv == "60" || "FATAL".caseInsensitiveCompare(levelEnv) == NSComparisonResult.OrderedSame {
+                } else if levelEnv == "60" || "FATAL".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
                     level = Level.FATAL
                 }
             }
@@ -59,12 +59,12 @@ struct Logger {
     }
 
     private static let SPRIG_LEVEL: String = "SPRIG_LEVEL"
-    private static var isoFormatter: NSDateFormatter
+    private static var isoFormatter: DateFormatter
     {
-        let formatter: NSDateFormatter = NSDateFormatter()
-        formatter.timeZone = NSTimeZone(name: "UTC")!
+        let formatter: DateFormatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "UTC")!
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        formatter.locale = NSLocale.currentLocale()
+        formatter.locale = Locale.current
 
         return formatter
     }
@@ -74,64 +74,64 @@ struct Logger {
     var appender: Appender
     let name: String
 
-    init(name: String, appender: Appender = Logger.global.appender, level: Level = Logger.global.level) {
+    init(_ name: String, appender: Appender = Logger.global.appender, level: Level = Logger.global.level) {
         self.name = name
         self.appender = appender
         self.level = level
     }
 
-    func log(level: Level, entry: CustomStringConvertible) {
+    func log(level: Level, _ entry: CustomStringConvertible) {
 
-        let processInfo: NSProcessInfo = NSProcessInfo.processInfo()
+        let processInfo: ProcessInfo = ProcessInfo.processInfo
         let pid: Int32 = processInfo.processIdentifier
         let hostname: String = processInfo.hostName
-        let thread: NSThread = NSThread.currentThread()
+        let thread: Thread = Thread.current
 
         var logString: String = "{"
         logString += Entry(key: "pid", value: pid).description + ","
         logString += Entry(key: "hostname", value: hostname).description + ","
         logString += Entry(key: "thread", value: thread).description + ","
-        logString += Entry(key: "time", value: NSDate()).description + ","
+        logString += Entry(key: "time", value: Date()).description + ","
         logString += Entry(key: "level", value: level.rawValue).description + ","
         logString += Entry(key: "name", value: name).description + ","
         logString += Entry(key: "msg", value: entry).description
         logString += "}"
 
-        appender.write(logString)
+        appender.write(any: logString)
     }
 
-    private static func globalLog(level: Level, entry: CustomStringConvertible) {
+    private static func globalLog(level: Level, _ entry: CustomStringConvertible) {
 
     }
 
-    func trace(entry: CustomStringConvertible)
+    func trace(_ entry: CustomStringConvertible)
     {
-        log(Level.TRACE, entry: entry)
+        log(level: Level.TRACE, entry)
     }
 
-    func debug(entry: CustomStringConvertible)
+    func debug(_ entry: CustomStringConvertible)
     {
-        log(Level.DEBUG, entry: entry)
+        log(level: Level.DEBUG, entry)
     }
 
-    func info(entry: CustomStringConvertible)
+    func info(_ entry: CustomStringConvertible)
     {
-        log(Level.INFO, entry: entry)
+        log(level: Level.INFO, entry)
     }
 
-    func warn(entry: CustomStringConvertible)
+    func warn(_ entry: CustomStringConvertible)
     {
-        log(Level.WARN, entry: entry)
+        log(level: Level.WARN, entry)
     }
 
-    func error(entry: CustomStringConvertible)
+    func error(_ entry: CustomStringConvertible)
     {
-        log(Level.ERROR, entry: entry)
+        log(level: Level.ERROR, entry)
     }
 
-    func fatal(entry: CustomStringConvertible)
+    func fatal(_ entry: CustomStringConvertible)
     {
-        log(Level.FATAL, entry: entry)
+        log(level: Level.FATAL, entry)
     }
 
 }
