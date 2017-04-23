@@ -74,7 +74,7 @@ public class Logger {
     var appender: Appender
     let name: String
 
-    init(_ name: String, appender: Appender = Logger.global.appender, level: Level = Logger.global.level) {
+    public init(_ name: String, appender: Appender = Logger.global.appender, level: Level = Logger.global.level) {
         self.name = name
         self.appender = appender
         self.level = level

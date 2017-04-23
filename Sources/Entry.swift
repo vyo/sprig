@@ -9,7 +9,7 @@ public class Entry : CustomStringConvertible {
         return key.jsonDescription() + ":" + value.jsonDescription()
     }
 
-    init(key: String, value: CustomStringConvertible) {
+    public init(key: String, value: CustomStringConvertible) {
         self.key = key
         self.value = value
     }
