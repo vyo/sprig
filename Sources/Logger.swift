@@ -4,7 +4,7 @@ import Foundation
 
 */
 
-class Logger {
+public class Logger {
 
     struct Global {
 

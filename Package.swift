@@ -4,6 +4,6 @@ let package = Package(
     name: "Sprig",
     targets: [],
     dependencies: [
-      .Package(url: "https://github.com/mxcl/PromiseKit", majorVersion: 4)
+      // .Package(url: "https://github.com/mxcl/PromiseKit", majorVersion: 4)
     ]
 )

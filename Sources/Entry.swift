@@ -1,10 +1,10 @@
 
 
-class Entry : CustomStringConvertible {
+public class Entry : CustomStringConvertible {
 
     let key: String
     let value: CustomStringConvertible
-    var description: String
+    public var description: String
     {
         return key.jsonDescription() + ":" + value.jsonDescription()
     }

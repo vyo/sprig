@@ -2,9 +2,9 @@
 
 */
 
-class ConsoleAppender: Appender {
+public class ConsoleAppender: Appender {
 
-    func write(any: String) {
+    public func write(any: String) {
         print(any)
     }
 

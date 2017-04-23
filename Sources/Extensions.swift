@@ -12,7 +12,7 @@ func toJSONString(string: String) -> String {
     return "\"" + escapedString + "\""
 }
 
-extension CustomStringConvertible {
+public extension CustomStringConvertible {
 
     func jsonDescription() -> String
     {

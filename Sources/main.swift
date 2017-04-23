@@ -1,3 +1,0 @@
-
-Logger("logger").info("hello")
-
