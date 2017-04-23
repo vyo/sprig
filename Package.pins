@@ -1,0 +1,12 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "PromiseKit",
+      "reason": null,
+      "repositoryURL": "https://github.com/mxcl/PromiseKit",
+      "version": "4.1.8"
+    }
+  ],
+  "version": 1
+}

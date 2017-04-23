@@ -4,7 +4,7 @@ import Foundation
 
 */
 
-struct Logger {
+class Logger {
 
     struct Global {
 
@@ -90,7 +90,7 @@ struct Logger {
         var logString: String = "{"
         logString += Entry(key: "pid", value: pid).description + ","
         logString += Entry(key: "hostname", value: hostname).description + ","
-        logString += Entry(key: "thread", value: thread).description + ","
+        logString += Entry(key: "thread", value: thread.name!).description + ","
         logString += Entry(key: "time", value: Date()).description + ","
         logString += Entry(key: "level", value: level.rawValue).description + ","
         logString += Entry(key: "name", value: name).description + ","

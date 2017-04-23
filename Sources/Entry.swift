@@ -1,6 +1,6 @@
 
 
-struct Entry : CustomStringConvertible {
+class Entry : CustomStringConvertible {
 
     let key: String
     let value: CustomStringConvertible
