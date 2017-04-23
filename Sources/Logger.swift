@@ -53,7 +53,7 @@ public class Logger {
         self.level = level
     }
 
-    func log(level: Level, _ entry: CustomStringConvertible, customEntries: Entry...) {
+    func log(level: Level, _ entry: CustomStringConvertible, customEntries: [Entry]) {
 
         let processInfo: ProcessInfo = ProcessInfo.processInfo
         let pid: Int32 = processInfo.processIdentifier
@@ -68,6 +68,17 @@ public class Logger {
         logString += Entry(key: "level", value: level.rawValue).description + ","
         logString += Entry(key: "name", value: name).description + ","
         logString += Entry(key: "msg", value: entry).description
+
+        if (customEntries.count > 0) {
+            logString += ","
+        }
+        for i in 0...customEntries.count - 1 {
+            logString += Entry(key: customEntries[i].key, value: customEntries[i].value).description + ","
+        }
+        if (customEntries.count > 0) {
+            logString += Entry(key: customEntries[customEntries.count - 1].key, value: customEntries[customEntries.count - 1].value).description
+        }
+
         logString += "}"
 
         appender.write(any: logString)
@@ -78,27 +89,27 @@ public class Logger {
     }
 
     public func trace(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.TRACE, entry)
+        log(level: Level.TRACE, entry, customEntries: customEntries)
     }
 
     public func debug(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.DEBUG, entry)
+        log(level: Level.DEBUG, entry, customEntries: customEntries)
     }
 
     public func info(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.INFO, entry)
+        log(level: Level.INFO, entry, customEntries: customEntries)
     }
 
     public func warn(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.WARN, entry)
+        log(level: Level.WARN, entry, customEntries: customEntries)
     }
 
     public func error(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.ERROR, entry)
+        log(level: Level.ERROR, entry, customEntries: customEntries)
     }
 
     public func fatal(_ entry: CustomStringConvertible, customEntries: Entry...) {
-        log(level: Level.FATAL, entry)
+        log(level: Level.FATAL, entry, customEntries: customEntries)
     }
 
 }
