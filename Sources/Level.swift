@@ -1,4 +1,3 @@
-
 public enum Level: Int {
     case TRACE = 10
     case DEBUG = 20
@@ -7,4 +6,3 @@ public enum Level: Int {
     case ERROR = 50
     case FATAL = 60
 }
-

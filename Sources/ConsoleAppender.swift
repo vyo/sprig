@@ -1,7 +1,3 @@
-/*
-
-*/
-
 public class ConsoleAppender: Appender {
 
     public func write(any: String) {

@@ -1,66 +1,39 @@
 import Foundation
 
-/*
-
-*/
-
 public class Logger {
 
     struct Global {
 
         private var logger: Logger = Logger("sprig", appender: ConsoleAppender(), level: Level.INFO)
         var name: String
-        {
-            get
-            {
-                return logger.name
-            }
-        }
         var appender: Appender
-        {
-            get
-            {
-                return logger.appender
-            }
-            set(appender)
-            {
-                logger.appender = appender
-            }
-        }
         var level: Level
-        {
-            get
-            {
-                return logger.level
-            }
-            set(level)
-            {
-                logger.level = level
-            }
-        }
 
         init() {
-            if let levelEnv = ProcessInfo.processInfo.environment[SPRIG_LEVEL] {
+            self.name = logger.name
+            self.appender = logger.appender
+            self.level = logger.level
+
+            if let levelEnv = ProcessInfo.processInfo.environment[sprigLevel] {
                 if levelEnv == "10" || "TRACE".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.TRACE
+                    self.level = Level.TRACE
                 } else if levelEnv == "20" || "DEBUG".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.DEBUG
+                    self.level = Level.DEBUG
                 } else if levelEnv == "30" || "INFO".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.INFO
+                    self.level = Level.INFO
                 } else if levelEnv == "40" || "WARN".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.WARN
+                    self.level = Level.WARN
                 } else if levelEnv == "50" || "ERROR".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.ERROR
+                    self.level = Level.ERROR
                 } else if levelEnv == "60" || "FATAL".caseInsensitiveCompare(levelEnv) == ComparisonResult.orderedSame {
-                    level = Level.FATAL
+                    self.level = Level.FATAL
                 }
             }
         }
     }
 
-    private static let SPRIG_LEVEL: String = "SPRIG_LEVEL"
-    private static var isoFormatter: DateFormatter
-    {
+    private static let sprigLevel: String = "SPRIG_LEVEL"
+    private static var isoFormatter: DateFormatter {
         let formatter: DateFormatter = DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "UTC")!
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -80,7 +53,7 @@ public class Logger {
         self.level = level
     }
 
-    func log(level: Level, _ entry: CustomStringConvertible) {
+    func log(level: Level, _ entry: CustomStringConvertible, customEntries: Entry...) {
 
         let processInfo: ProcessInfo = ProcessInfo.processInfo
         let pid: Int32 = processInfo.processIdentifier
@@ -104,33 +77,27 @@ public class Logger {
 
     }
 
-    public func trace(_ entry: CustomStringConvertible)
-    {
+    public func trace(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.TRACE, entry)
     }
 
-    public func debug(_ entry: CustomStringConvertible)
-    {
+    public func debug(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.DEBUG, entry)
     }
 
-    public func info(_ entry: CustomStringConvertible)
-    {
+    public func info(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.INFO, entry)
     }
 
-    public func warn(_ entry: CustomStringConvertible)
-    {
+    public func warn(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.WARN, entry)
     }
 
-    public func error(_ entry: CustomStringConvertible)
-    {
+    public func error(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.ERROR, entry)
     }
 
-    public func fatal(_ entry: CustomStringConvertible)
-    {
+    public func fatal(_ entry: CustomStringConvertible, customEntries: Entry...) {
         log(level: Level.FATAL, entry)
     }
 
