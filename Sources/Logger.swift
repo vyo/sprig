@@ -104,32 +104,32 @@ public class Logger {
 
     }
 
-    func trace(_ entry: CustomStringConvertible)
+    public func trace(_ entry: CustomStringConvertible)
     {
         log(level: Level.TRACE, entry)
     }
 
-    func debug(_ entry: CustomStringConvertible)
+    public func debug(_ entry: CustomStringConvertible)
     {
         log(level: Level.DEBUG, entry)
     }
 
-    func info(_ entry: CustomStringConvertible)
+    public func info(_ entry: CustomStringConvertible)
     {
         log(level: Level.INFO, entry)
     }
 
-    func warn(_ entry: CustomStringConvertible)
+    public func warn(_ entry: CustomStringConvertible)
     {
         log(level: Level.WARN, entry)
     }
 
-    func error(_ entry: CustomStringConvertible)
+    public func error(_ entry: CustomStringConvertible)
     {
         log(level: Level.ERROR, entry)
     }
 
-    func fatal(_ entry: CustomStringConvertible)
+    public func fatal(_ entry: CustomStringConvertible)
     {
         log(level: Level.FATAL, entry)
     }
